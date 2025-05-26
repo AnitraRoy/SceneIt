@@ -1,6 +1,6 @@
 # 🎬 SceneIt - Genre-Based Movie Recommender
 
-SceneIt is a movie recommendation app that helps users discover new movies based on their favorite genres. Powered by the TMDb API, it fetches movie data and displays recommendations with posters, genres, and ratings in real time.
+SceneIt is a movie recommendation app that helps users discover new movies based on their favorite genres. Using data extracted from TMDb API, it fetches movie data and displays recommendations with posters, genres, and ratings in real time.
 
 ## 🚀 Features
 
@@ -15,5 +15,3 @@ SceneIt is a movie recommendation app that helps users discover new movies based
 2. SceneIt queries TMDb for movies that match the selected genres.
 3. The app displays the results with movie posters, titles, ratings, and genres.
 4. Users can explore new titles instantly.
-
-This is my first personal project, so bear with me 😅
