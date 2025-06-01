@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SceneIt - Movie Recommendations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body class="bg-zinc-900 text-white min-h-screen font-sans">
+
+  <!-- back button to home -->
+  <button id="backBtn" onclick="window.location.href='/'" class="m-4 text-white hover:text-red-600 transition">&larr; Go Back</button>
+
+  <!-- header with site title and nav -->
+  <header class="bg-zinc-900 py-6 shadow-lg">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <div class="flex items-center">
+        <span class="text-4xl font-extrabold text-red-600 tracking-wide" style="font-family: 'Bebas Neue', sans-serif;">SCENEIT</span>
+      </div>
+      <!-- navigation links -->
+      <nav class="hidden md:flex space-x-6 text-lg font-medium">
+        <a href="/" class="hover:text-red-500 transition">Home</a>
+        <a href="search" class="hover:text-red-500 transition">Search</a>
+        <a href="recommend" class="hover:text-red-500 transition">Recommender</a>
+      </nav>
+      <!-- mobile menu button (for later) -->
+      <button class="md:hidden text-2xl text-white"><i class="fas fa-bars"></i></button>
+    </div>
+  </header>
+
+  <!-- main content area -->
+  <main class="container mx-auto px-4 py-10">
+    <!-- intro text -->
+    <section class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-white mb-4">Discover Your Next Favorite Movie</h2>
+        <p class="text-gray-400 max-w-full mx-auto text-lg whitespace-nowrap overflow-x-auto">Choose your favourite genre(s) and let SceneIt recommend the perfect movie for your next binge!</p>
+    </section>
+
+    <!-- genre selection and options -->
+    <section class="mb-12">
+      <div class="bg-zinc-900 rounded-xl p-6 shadow-lg">
+        <h3 class="text-2xl font-semibold mb-6">Select Your Preferred Genre(s)</h3>
+
+        <div id="genreContainer" class="flex flex-wrap gap-3 mb-8"></div>
+        <div class="flex flex-col sm:flex-row gap-4 items-center">
+          
+          <!-- dropdown for number of recommendations -->
+          <div class="flex items-center space-x-2">
+            <label for="numRecommendations" class="text-white">Number of Recommendations:</label>
+            <select id="numRecommendations" class="bg-gray-800 text-white font-bold py-2 px-4 rounded-lg">
+              <option value="15">15</option>
+              <option value="30">30</option>
+              <option value="45">45</option>
+              <option value="60">60</option>
+            </select>
+          </div>
+
+          <!-- dropdown for sorting options -->
+          <div class="flex items-center space-x-2">
+            <label for="sortBy" class="text-white">Sort By:</label>
+            <select id="sortBy" class="bg-gray-800 text-white font-bold py-2 px-4 rounded-lg">
+              <option value="popularity.desc">Popularity (High to Low)</option>
+              <option value="popularity.asc">Popularity (Low to High)</option>
+              <option value="title.asc">Title (A-Z)</option>
+              <option value="title.desc">Title (Z-A)</option>
+              <option value="vote_average.desc">Highest Rating</option>
+              <option value="vote_average.asc">Lowest Rating</option>
+              <option value="release_date.desc">Newest</option>
+              <option value="release_date.asc">Oldest</option>
+            </select>
+          </div>
+
+          <!-- button to trigger recommendations -->
+          <button id="recommendBtn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition flex items-center justify-center">
+            <i class="fas fa-magic mr-2"></i> Get Recommendations!
+          </button>
+          
+          <!-- button for surprise me random recommendations -->
+          <button id="randomBtn" class="bg-white text-black hover:bg-gray-200 font-bold py-3 px-6 rounded-lg transition flex items-center justify-center mt-4 sm:mt-0">
+            <i class="fas fa-random mr-2"></i> Surprise Me ...
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- recommendations display section -->
+    <section id="resultsSection" class="hidden">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-semibold text-white">Your Recommendations</h3>
+        <!-- button to refresh recommendations -->
+        <button id="refreshBtn" class="text-red-500 hover:text-red-400 transition flex items-center">
+          <i class="fas fa-sync-alt mr-2"></i> Refresh
+        </button>
+      </div>
+
+      <!-- loading spinner -->
+      <div id="loadingSpinner" class="flex justify-center items-center py-12 hidden">
+        <div class="loading-spinner"></div>
+      </div>
+
+      <!-- container where movie cards will show -->
+      <div id="movieContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+
+      <!-- no results message -->
+      <div id="noResults" class="text-center py-12 hidden">
+        <i class="fas fa-film text-5xl text-gray-600 mb-4"></i>
+        <h4 class="text-xl font-semibold mb-2">No movies found</h4>
+        <p class="text-gray-400">Try different genres or hit "Surprise Me ...".</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- footer -->
+  <footer class="bg-zinc-900 py-8 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <div class="flex items-center">
+            <span class="text-xl font-bold text-red-600" style="font-family: 'Bebas Neue', sans-serif;">SCENEIT</span>
+          </div>
+          <p class="text-gray-400 mt-2">Find your perfect movie match</p>
+        </div>
+        <div class="flex space-x-6">
+          <!-- social icons -->
+          <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter text-xl"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook text-xl"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram text-xl"></i></a>
+        </div>
+      </div>
+      <!-- copyright section -->
+      <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400">
+        <p>&copy; 2025 SceneIt. All rights reserved by Anitra Roy.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='recommender.js') }}"></script>
+</body>
+</html>
